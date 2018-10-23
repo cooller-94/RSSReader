@@ -1,0 +1,14 @@
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Core.deps.json
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Core.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Infrastructure.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Infrastructure.pdb
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.csprojAssemblyReference.cache
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.csproj.CoreCompileInputs.cache
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.AssemblyInfoInputs.cache
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.AssemblyInfo.cs
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.csproj.CopyComplete
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Core.pdb
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.pdb
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Common.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Common.pdb

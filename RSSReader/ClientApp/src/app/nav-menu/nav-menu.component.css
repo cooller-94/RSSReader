@@ -1,0 +1,116 @@
+li .glyphicon {
+  margin-right: 10px;
+}
+
+/* Highlighting rules for nav menu items */
+li.link-active a,
+li.link-active a:hover,
+li.link-active a:focus {
+  background-color: #4189C7;
+  color: white;
+}
+
+/* Keep the nav menu independent of scrolling and on top of other items */
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.category-group {
+  margin-bottom: 5px;
+}
+
+.f-label {
+  font-size: 13px;
+  font-family: sans-serif;
+  cursor: pointer;
+}
+
+.category-item {
+  padding: 5px 10px;
+}
+
+.badge-post-count {
+  font-size: 10px;
+  float: right;
+}
+
+.feeds-navigation .glyphicon {
+  margin-right: 5px;
+}
+
+.feed-label {
+  margin-left: 5px;
+}
+
+.add-feed-icon {
+  margin-right: 10px;
+  font-size: 14px;
+  float: right;
+  cursor: pointer;
+}
+
+.feed-icon {
+  background-size: 16px;
+  border-radius: 3px;
+  height: 16px;
+  opacity: 0.9;
+  padding: 0px;
+  vertical-align: top;
+  width: 16px;
+}
+
+
+.font-bold{
+  font-weight:bold;
+}
+
+
+@media (min-width: 768px) {
+  /* On small screens, convert the nav menu to a vertical sidebar */
+  .main-nav {
+    height: 100%;
+    width: calc(25% - 20px);
+  }
+
+  .navbar {
+    border-radius: 0px;
+    border-width: 0px;
+    height: 100%;
+  }
+
+  .navbar-header {
+    float: none;
+  }
+
+  .navbar-collapse {
+    border-top: 1px solid #444;
+    padding: 0px;
+  }
+
+  .navbar ul {
+    float: none;
+  }
+
+  .navbar li {
+    float: none;
+    font-size: 15px;
+    margin: 6px;
+  }
+
+    .navbar li a {
+      padding: 10px 16px;
+      border-radius: 4px;
+    }
+
+  .navbar a {
+    /* If a menu item's text is too long, truncate it */
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
