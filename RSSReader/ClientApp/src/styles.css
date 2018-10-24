@@ -1,2 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+
+body{
+  padding-top: 50px;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+
+.table-title {
+  font-weight: bold;
+  margin-left: 15px;
+  margin-bottom: 20px;
+}
+

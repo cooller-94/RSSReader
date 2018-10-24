@@ -100,6 +100,7 @@ namespace RSSReader
 
             services.AddSingleton<IFeedParser<RSSFeed>, RSSFeedParser>();
             services.AddScoped<IFeedSyncService, FeedSyncService>();
+            services.AddScoped<IPostService, PostService>();
         }
     }
 }

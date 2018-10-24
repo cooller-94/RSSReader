@@ -16,6 +16,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +26,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\shared\components\progress\porgress-bar.component.ts" />
+    <None Remove="ClientApp\src\app\shared\components\title-only-table\title-only-table.component.ts" />
     <None Remove="ClientApp\src\app\shared\models\app-config.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\feed-information.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\feed.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\post.model.ts" />
     <None Remove="ClientApp\src\app\shared\services\app-config.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\feed.service.ts" />
+    <None Remove="ClientApp\src\app\shared\services\post.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,10 +44,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\shared\components\progress\porgress-bar.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\components\title-only-table\title-only-table.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\app-config.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\feed-information.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\feed.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\post.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\app-config.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\feed.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\post.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

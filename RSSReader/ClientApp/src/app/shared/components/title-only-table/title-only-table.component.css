@@ -1,0 +1,32 @@
+.post-title-view {
+  table-layout: fixed;
+  width: 100%;
+  font-size: 12px;
+}
+
+  .post-title-view td {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post-title-view tr {
+    cursor: pointer;
+  }
+
+  .post-title-view .source {
+    color: #9e9e9e
+  }
+
+  .post-title-view .description {
+    color: #9e9e9e
+  }
+
+.read {
+  color: #9e9e9e
+}
+
+.publish-ago {
+  color: #9e9e9e
+}

@@ -1,0 +1,7 @@
+.post-title-view {
+  white-space: nowrap;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+  flex: 1;
+}

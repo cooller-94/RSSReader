@@ -135,7 +135,7 @@ namespace Core.Services
 
             foreach (FeedInformation information in feedInformation)
             {
-                information.PostsCount = await _unitOfWork.PostRepository.GetCountPostsByFeedId(information.FeedId);
+                information.PostsCount = await _unitOfWork.PostRepository.GetCountPostsByFeedIdAsync(information.FeedId);
             }
 
             return feedInformation;

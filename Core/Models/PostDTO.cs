@@ -24,6 +24,5 @@ namespace Core.Models
 
         public FeedDTO Feed { get; set; }
         public string PostHash { get; set; }
-
     }
 }

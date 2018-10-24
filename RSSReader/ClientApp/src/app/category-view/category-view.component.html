@@ -1,0 +1,10 @@
+
+<progress-bar *ngIf="!posts" [step]="1" [height]="5"></progress-bar>
+
+<div *ngIf="posts">
+  <h2 *ngIf="posts" class="table-title">{{category}}</h2>
+
+  <p>Latest</p>
+  <title-only-table [posts]="posts" [showFeed]="true"></title-only-table>
+</div>
+

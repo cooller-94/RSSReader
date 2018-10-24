@@ -1,0 +1,8 @@
+<progress-bar *ngIf="!posts" [step]="1" [height]="5"></progress-bar>
+
+<div *ngIf="posts">
+  <h2 class="table-title">{{posts[0].feed.title}}</h2>
+
+  <p>Latest</p>
+  <title-only-table [posts]="posts"></title-only-table>
+</div>

@@ -1,17 +1,11 @@
 <div class='main-nav'>
   <div class='navbar navbar-default'>
-    <div class='navbar-header'>
-      <a class='navbar-brand' [routerLink]='["/"]'>RSS Reader</a>
-    </div>
     <div class='clearfix'></div>
 
     <div class="feeds-navigation">
 
       <div class="feed-label">
         <label>Feeds</label>
-        <a class="btn btn-default btn-sm">
-          <span class="glyphicon glyphicon-plus"></span> Add new feed
-        </a>
       </div>
 
       <div class='clearfix'></div>
@@ -21,7 +15,7 @@
           <div class="panel-heading category-item">
             <h6 class="panel-title f-label" [ngClass]="{'font-bold': getTotalCount() > 0 }">
               <span class="glyphicon glyphicon-menu-hamburger"></span>
-              <a data-toggle="collapse" href="#">All<span class="badge badge-post-count" *ngIf="getTotalCount() > 0">{{getTotalCount()}}</span></a>
+              <a [routerLink]="['latest']" [routerLinkActive]="['active']">All<span class="badge badge-post-count" *ngIf="getTotalCount() > 0">{{getTotalCount()}}</span></a>
             </h6>
           </div>
         </div>
@@ -32,12 +26,12 @@
           <div class="panel-heading active category-item">
             <h6 class="panel-title f-label" [ngClass]="{'font-bold': getCategoryPostsCount(category) > 0 }">
               <span [ngClass]="category.isExpanded ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right'" class="glyphicon" (click)="collapse(category)"></span>
-              <a data-toggle="collapse" *ngIf="getCategoryPostsCount(category) > 0" href="#collapse1">{{category.name}}<span class="badge badge-post-count">{{getCategoryPostsCount(category)}}</span></a>
+              <a [routerLink]="['categories', category.name]" [routerLinkActive]="['active']" *ngIf="getCategoryPostsCount(category) > 0">{{category.name}}<span class="badge badge-post-count">{{getCategoryPostsCount(category)}}</span></a>
             </h6>
           </div>
           <div id="collapse1" class="panel-collapse" [ngClass]="{'collapse': !category.isExpanded }">
             <div class="list-group">
-              <a href="#" class="list-group-item f-label category-item" *ngFor="let feed of category.feedsInfo">
+              <a href="#" class="list-group-item f-label category-item" *ngFor="let feed of category.feedsInfo" [routerLink]="['feeds', feed.feedId]" [routerLinkActive]="['active']">
                 <img *ngIf="feed.imageUrl" [src]="feed.imageUrl" class="feed-icon" width="16" height="16" />
                 <span [ngClass]="{'font-bold': feed.postsCount > 0}">{{feed.title}}</span>
                 <span class="badge badgepurple badge-post-count" *ngIf="feed.postsCount > 0">{{feed.postsCount}}</span>
@@ -46,6 +40,12 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="footer-actions">
+      <a class="btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-plus"></span> Add new feed
+      </a>
     </div>
   </div>
 </div>

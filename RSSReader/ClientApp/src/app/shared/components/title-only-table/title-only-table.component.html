@@ -1,0 +1,10 @@
+<table class='table table-striped table-hover table-sm post-title-view' *ngIf="posts">
+  <tbody>
+    <tr *ngFor="let post of posts" (click)="onPostClick(post)" [ngClass]="{'read': post.isRead}">
+      <td style="width: 8%" class="source" *ngIf="showFeed">{{post.feed.title}}</td>
+      <td style="width: 32%" [ngClass]="{'font-bold': !post.isRead }" [innerHTML]="post.title"></td>
+      <td style="width: 55%" class="description" [innerHTML]="post.description "></td>
+      <td style="width: 5%" [title]="post.publishDate | date: 'MMMM dd yyyy hh:mm a'" class="publish-ago">{{post.publishAgo}}</td>
+    </tr>
+  </tbody>
+</table>

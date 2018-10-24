@@ -6,12 +6,13 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { FeedService } from './shared/services/feed.service';
 import { AppSettings } from './shared/services/app-config.service';
-import { AppConfig } from './shared/models/app-config.model';
+import { PostService } from './shared/services/post.service';
+import { FeedViewComponent } from './feed-view/feed-view.component';
+import { TitleOnlyTableComponent } from './shared/components/title-only-table/title-only-table.component';
+import { CategoryViewComponent } from './category-view/category-view.component';
+import { ProgressBarComponent } from './shared/components/progress/porgress-bar.component';
 
 export function initializeApp(appConfig: AppSettings) {
   return () => appConfig.load();
@@ -21,21 +22,23 @@ export function initializeApp(appConfig: AppSettings) {
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    FeedViewComponent,
+    TitleOnlyTableComponent,
+    CategoryViewComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'latest' },
+      { path: 'feeds/:feedId', component: FeedViewComponent, pathMatch: 'full' },
+      { path: 'categories/:category', component: CategoryViewComponent, pathMatch: 'full' },
+      { path: 'latest', component: CategoryViewComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AppSettings, { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppSettings], multi: true }, FeedService],
+  providers: [AppSettings, { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppSettings], multi: true }, FeedService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
