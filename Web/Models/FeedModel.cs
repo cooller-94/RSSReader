@@ -4,6 +4,7 @@ namespace Web.Models
 {
     public class FeedModel
     {
+        public int FeedId { get; set; }
         [Required]
         public string Title { get; set; }
 

@@ -1,19 +1,12 @@
 
-<div class='container-fluid'>
-  <div class="row">
-    <div class='navbar navbar-default navbar-fixed-top'>
-      <div class="navbar-inner">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">RSS Reader</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <div class="pull-right">
-            <button type="button" class="btn btn-inverse navbar-btn ">Sign in</button>
-          </div>
+<div class="container-fluid" *ngIf="!isLoggedIn">
+  <router-outlet></router-outlet>
+</div>
 
-        </div>
-      </div>
-    </div>
+
+<div class='container-fluid' *ngIf="isLoggedIn">
+  <div class="row">
+    <top-nav-menu></top-nav-menu>
   </div>
   <div class='row'>
     <div class='col-lg-2'>

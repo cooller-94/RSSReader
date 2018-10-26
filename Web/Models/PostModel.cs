@@ -29,6 +29,11 @@ namespace Web.Models
                     return $"{(int)subDate.TotalDays}d ago";
                 }
 
+                if (subDate.TotalHours < 1)
+                {
+                    return $"{(int)subDate.TotalMinutes}m ago";
+                }
+
                 return $"{(int)subDate.TotalHours}h ago";
             }
         }

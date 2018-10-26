@@ -6,6 +6,6 @@ namespace Infrastructure.Repositories.Interfaces
 {
     public interface IFeedRepository : IRepositoryBase<Feed>
     {
-        Task<IEnumerable<Feed>> GetAllFeedsAsync();
+        Task<IEnumerable<Feed>> GetAllFeedsForUserAsync(string userId);
     }
 }

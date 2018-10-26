@@ -9,6 +9,7 @@ namespace Infrastructure
         ICategoryRepository CategoryRepository { get; }
         IFeedRepository FeedRepository { get; }
         IPostRepository PostRepository { get; }
+        IUserFeedRepository UserFeedRepository { get; }
         Task SaveAsync();
     }
 }

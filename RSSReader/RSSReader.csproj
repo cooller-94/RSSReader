@@ -15,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
@@ -26,15 +27,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\auth\constants\auth.constant.ts" />
+    <None Remove="ClientApp\src\app\auth\guards\auth.guard.ts" />
+    <None Remove="ClientApp\src\app\auth\models\login-user.model.ts" />
     <None Remove="ClientApp\src\app\shared\components\progress\porgress-bar.component.ts" />
     <None Remove="ClientApp\src\app\shared\components\title-only-table\title-only-table.component.ts" />
+    <None Remove="ClientApp\src\app\shared\interceptors\error.interceptor.ts" />
+    <None Remove="ClientApp\src\app\shared\interceptors\jwt.interceptor.ts" />
     <None Remove="ClientApp\src\app\shared\models\app-config.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\category-group.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\feed-information.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\feed.model.ts" />
     <None Remove="ClientApp\src\app\shared\models\post.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\sync-feed-result.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\user.model.ts" />
     <None Remove="ClientApp\src\app\shared\services\app-config.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\feed.service.ts" />
     <None Remove="ClientApp\src\app\shared\services\post.service.ts" />
+    <None Remove="ClientApp\src\app\shared\services\state.service.ts" />
+    <None Remove="ClientApp\src\app\shared\services\sync-feed.service.ts" />
+    <None Remove="ClientApp\src\app\shared\services\user.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,15 +56,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\auth\constants\auth.constant.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\auth\guards\auth.guard.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\auth\models\login-user.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\components\progress\porgress-bar.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\components\title-only-table\title-only-table.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\interceptors\error.interceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\interceptors\jwt.interceptor.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\app-config.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\category-group.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\feed-information.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\feed.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\post.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\sync-feed-result.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\user.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\app-config.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\feed.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\services\post.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\state.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\sync-feed.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\services\user.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

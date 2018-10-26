@@ -48,49 +48,6 @@ namespace Core.Services
             await _unitOfWork.SaveAsync();
         }
 
-
-        public async Task SyncAllAsync()
-        {
-            IEnumerable<Feed> dbFeeds = await _unitOfWork.FeedRepository.GetAllAsync();
-
-            IEnumerable<FeedDTO> feeds = _mapper.Map<IEnumerable<FeedDTO>>(dbFeeds);
-
-            List<PostDTO> rssPosts = new List<PostDTO>();
-
-            foreach (FeedDTO feed in feeds)
-            {
-                IEnumerable<PostDTO> currentItems = await GetItemsAsync(feed.Url);
-
-                if (currentItems != null)
-                {
-                    foreach (PostDTO item in currentItems)
-                    {
-                        item.Feed = feed;
-                        item.PostHash = RssFeedHelper.EncryptPost(item.Title, item.Description, item.Link);
-                        rssPosts.Add(item);
-                    }
-                }
-            }
-
-            string[] urls = rssPosts.Select(u => u.PostHash).ToArray();
-
-            IEnumerable<Post> oldPosts = await _unitOfWork.PostRepository.GetPostsByHashAsync(urls);
-
-            foreach (PostDTO post in rssPosts)
-            {
-                if (oldPosts.Any(i => i.Link == post.Link))
-                {
-                    continue;
-                }
-
-                Post dbPost = _mapper.Map<Post>(post);
-                _unitOfWork.PostRepository.Create(dbPost);
-            }
-
-            await _unitOfWork.SaveAsync();
-        }
-
-
         private async Task<IEnumerable<PostDTO>> GetItemsAsync(string url)
         {
             RSSFeed rssFeed = await _feedParser.ParseAsync(url);
@@ -129,7 +86,9 @@ namespace Core.Services
 
         public async Task<IEnumerable<FeedInformation>> GetAllFeedsAsync()
         {
-            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsAsync();
+            IEnumerable<FeedUser> userFeeds = await _unitOfWork.UserFeedRepository.GetAllFeedUsersAsync("e5546dac-e97a-4602-9563-d07973d54d4b");
+
+            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsForUserAsync("8993153c-a177-4e82-a1e2-aef606443baf");
 
             IEnumerable<FeedInformation> feedInformation = _mapper.Map<IEnumerable<FeedInformation>>(feeds);
 

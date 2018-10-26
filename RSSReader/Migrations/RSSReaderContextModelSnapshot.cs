@@ -23,43 +23,35 @@ namespace RSSReader.Migrations
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("category_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("title")
                         .HasMaxLength(100);
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Feed", b =>
                 {
                     b.Property<int>("FeedId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("feed_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnName("category_id");
+                    b.Property<int?>("CategoryId");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnName("description");
+                        .IsRequired();
 
-                    b.Property<Guid?>("ImageId")
-                        .HasColumnName("image_id");
+                    b.Property<Guid?>("ImageId");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("title");
+                        .IsRequired();
 
                     b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnName("url");
+                        .IsRequired();
 
                     b.HasKey("FeedId");
 
@@ -67,35 +59,53 @@ namespace RSSReader.Migrations
 
                     b.HasIndex("ImageId");
 
-                    b.ToTable("Feed");
+                    b.ToTable("Feeds");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.FeedUser", b =>
+                {
+                    b.Property<int>("FeedId")
+                        .HasColumnName("feed_id");
+
+                    b.Property<string>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnName("category_id");
+
+                    b.Property<int>("FeedInUserId")
+                        .HasColumnName("feed_user_id");
+
+                    b.HasKey("FeedId", "UserId");
+
+                    b.HasAlternateKey("FeedInUserId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FeedUser");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Image", b =>
                 {
                     b.Property<Guid>("ImageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("image_id");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .HasColumnName("description");
+                    b.Property<string>("Description");
 
-                    b.Property<double?>("Height")
-                        .HasColumnName("height");
+                    b.Property<double?>("Height");
 
                     b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnName("link");
+                        .IsRequired();
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnName("title");
+                        .IsRequired();
 
                     b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnName("url");
+                        .IsRequired();
 
-                    b.Property<double?>("Width")
-                        .HasColumnName("width");
+                    b.Property<double?>("Width");
 
                     b.HasKey("ImageId");
 
@@ -106,44 +116,198 @@ namespace RSSReader.Migrations
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("post_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
-                        .HasColumnName("author");
+                    b.Property<string>("Author");
 
-                    b.Property<string>("CommentsUrl")
-                        .HasColumnName("comments_url");
+                    b.Property<string>("CommentsUrl");
 
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnName("date_added");
+                    b.Property<DateTime>("DateAdded");
 
-                    b.Property<string>("Description")
-                        .HasColumnName("description");
+                    b.Property<string>("Description");
 
-                    b.Property<int>("FeedId")
-                        .HasColumnName("feed_id");
+                    b.Property<int>("FeedId");
 
-                    b.Property<bool>("IsRead")
-                        .HasColumnName("is_read");
+                    b.Property<bool>("IsRead");
 
-                    b.Property<string>("Link")
-                        .HasColumnName("link");
+                    b.Property<string>("Link");
 
-                    b.Property<string>("PostHash")
-                        .HasColumnName("post_hash");
+                    b.Property<string>("PostHash");
 
-                    b.Property<DateTime?>("PublishDate")
-                        .HasColumnName("publish_date");
+                    b.Property<DateTime?>("PublishDate");
 
-                    b.Property<string>("Title")
-                        .HasColumnName("title");
+                    b.Property<string>("Title");
 
                     b.HasKey("PostId");
 
                     b.HasIndex("FeedId");
 
-                    b.ToTable("Post");
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FullName");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("PictureUrl");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.Feed", b =>
@@ -157,11 +321,74 @@ namespace RSSReader.Migrations
                         .HasForeignKey("ImageId");
                 });
 
+            modelBuilder.Entity("Infrastructure.Models.FeedUser", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Infrastructure.Models.Feed", "Feed")
+                        .WithMany("Users")
+                        .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Infrastructure.Models.User", "User")
+                        .WithMany("Feeds")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Infrastructure.Models.Post", b =>
                 {
                     b.HasOne("Infrastructure.Models.Feed", "Feed")
                         .WithMany("Posts")
                         .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Infrastructure.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Infrastructure.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Infrastructure.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Infrastructure.Models.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

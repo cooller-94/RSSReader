@@ -7,3 +7,8 @@ C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\bin\Debug\netcoreapp2
 C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\obj\Debug\netcoreapp2.1\Infrastructure.dll
 C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\obj\Debug\netcoreapp2.1\Infrastructure.pdb
 C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\obj\Debug\netcoreapp2.1\Infrastructure.csprojAssemblyReference.cache
+C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.xml
+C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\obj\Debug\netcoreapp2.1\Infrastructure.csproj.CopyComplete
+C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Infrastructure\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml

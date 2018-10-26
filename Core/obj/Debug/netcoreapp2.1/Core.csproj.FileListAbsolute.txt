@@ -12,3 +12,7 @@ C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.dl
 C:\Users\vkovt\Documents\Projects\RSSReader\Core\obj\Debug\netcoreapp2.1\Core.pdb
 C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Common.dll
 C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Common.pdb
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Microsoft.Extensions.Identity.Stores.xml
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\vkovt\Documents\Projects\RSSReader\Core\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml

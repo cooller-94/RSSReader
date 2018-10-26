@@ -31,7 +31,7 @@ namespace Core.Services
 
         public async Task<IEnumerable<SyncFeedResult>> SyncAllAsync()
         {
-            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsAsync();
+            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsForUserAsync("8993153c-a177-4e82-a1e2-aef606443baf");
 
             List<PostDTO> rssPosts = new List<PostDTO>();
 

@@ -1,0 +1,20 @@
+<div class='navbar navbar-default navbar-fixed-top'>
+  <div class="navbar-inner">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">RSS Reader</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <div class="pull-right">
+        <div class="btn-group navbar-btn">
+          <img src="https://mbtskoudsalg.com/images/avatar-png-1.png" class="img-circle user-image" alt="Cinque Terre" width="30" height="30">
+          <ul class="dropdown-menu" *ngIf="currentUser">
+            <li class="dropdown-heder">{{currentUser.fullName}}</li>
+            <li><a href="#">Settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" (click)="onLogOut()">Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

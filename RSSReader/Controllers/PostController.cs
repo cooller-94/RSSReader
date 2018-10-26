@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Core.Models;
 using Core.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
@@ -13,6 +14,7 @@ namespace RSSReader.Controllers
 {
     [Route("api/posts")]
     [ApiController]
+    [Authorize(Policy = "ApiUser")]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;

@@ -14,9 +14,10 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Feed>> GetAllFeedsAsync()
+        public async Task<IEnumerable<Feed>> GetAllFeedsForUserAsync(string userId)
         {
-            return await _context.Feeds.Include(i => i.Category).Include(i => i.Image).ToListAsync();
+            return await _context.Feeds.ToListAsync();
+
         }
     }
 }

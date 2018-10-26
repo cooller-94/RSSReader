@@ -7,6 +7,7 @@ using Core.Models;
 using Core.Services.Interfaces;
 using Infrastructure;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
@@ -14,6 +15,7 @@ using Web.Models;
 namespace RSSReader.Controllers
 {
     [Route("api/[controller]")]
+    //[Authorize(Policy = "ApiUser")]
     public class FeedController : Controller
     {
         private readonly IFeedService _feedService;

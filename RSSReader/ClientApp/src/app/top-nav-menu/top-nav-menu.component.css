@@ -1,0 +1,12 @@
+.navbar .dropdown-menu{
+  left: auto;
+  right: 0;
+}
+
+.pull-right{
+  margin-right: 4%;
+}
+
+.user-image{
+  cursor:pointer;
+}

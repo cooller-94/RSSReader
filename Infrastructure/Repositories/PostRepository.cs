@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Posts
                 .Where(i => i.FeedId == feedId && !i.IsRead)
-                .Include(i => i.Feed)
+                .Include(i => i.Feed).ThenInclude(i => i.Category)
                 .OrderByDescending(i => i.PublishDate)
                 .ThenBy(i => i.DateAdded)
                 .ToListAsync();
@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Posts
                 .Where(i => !i.IsRead && i.Feed.Category != null && i.Feed.Category.Name == category)
-                .Include(i => i.Feed)
+                .Include(i => i.Feed).ThenInclude(i => i.Category)
                 .OrderByDescending(i => i.PublishDate)
                 .ThenBy(i => i.DateAdded)
                 .ToListAsync();
@@ -54,7 +54,7 @@ namespace Infrastructure.Repositories
         {
             return await _context.Posts
                 .Where(i => !i.IsRead)
-                .Include(i => i.Feed)
+                .Include(i => i.Feed).ThenInclude(i => i.Category)
                 .OrderByDescending(i => i.PublishDate)
                 .ThenBy(i => i.DateAdded)
                 .ToListAsync();

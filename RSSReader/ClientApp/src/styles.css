@@ -16,3 +16,7 @@ body{
   margin-bottom: 20px;
 }
 
+.sign-in-up-box {
+  border: #d1d1d1 solid 1px;
+  margin: 0 auto;
+}

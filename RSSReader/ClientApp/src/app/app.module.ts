@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -13,6 +13,17 @@ import { FeedViewComponent } from './feed-view/feed-view.component';
 import { TitleOnlyTableComponent } from './shared/components/title-only-table/title-only-table.component';
 import { CategoryViewComponent } from './category-view/category-view.component';
 import { ProgressBarComponent } from './shared/components/progress/porgress-bar.component';
+import { StateService } from './shared/services/state.service';
+import { SyncFeedService } from './shared/services/sync-feed.service';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './account/login/login.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
+import { AuthService } from './auth/services/auth.service';
+import { TopNavMenuComponent } from './top-nav-menu/top-nav-menu.component';
+import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
+import { SignUpComponent } from './account/sign-up/sign-up.component';
+import { UserService } from './shared/services/user.service';
 
 export function initializeApp(appConfig: AppSettings) {
   return () => appConfig.load();
@@ -25,20 +36,39 @@ export function initializeApp(appConfig: AppSettings) {
     FeedViewComponent,
     TitleOnlyTableComponent,
     CategoryViewComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    WelcomeComponent,
+    LoginComponent,
+    SignUpComponent,
+    TopNavMenuComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'latest' },
-      { path: 'feeds/:feedId', component: FeedViewComponent, pathMatch: 'full' },
-      { path: 'categories/:category', component: CategoryViewComponent, pathMatch: 'full' },
-      { path: 'latest', component: CategoryViewComponent, pathMatch: 'full' },
+      { path: 'feeds/:feedId', component: FeedViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'categories/:category', component: CategoryViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'latest', component: CategoryViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'welcome', component: WelcomeComponent, pathMatch: 'full' },
+      { path: 'login', component: LoginComponent, pathMatch: 'full' },
+      { path: 'sign-up', component: SignUpComponent, pathMatch: 'full' },
     ])
   ],
-  providers: [AppSettings, { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppSettings], multi: true }, FeedService, PostService],
+  providers: [AppSettings,
+    { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppSettings], multi: true },
+    FeedService,
+    PostService,
+    StateService,
+    SyncFeedService,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    AuthService,
+    AuthGuard,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

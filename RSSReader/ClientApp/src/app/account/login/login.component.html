@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 sign-in-up-box">
+      <div class="legend">
+        <h2 class="text-center">Sign In</h2>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group" [ngClass]="{'has-error': email.invalid && (email.dirty || email.touched)}">
+          <label for="email">Email</label>
+
+          <input type="email" formControlName="email" placeholder="Email" class="form-control" tmFocus />
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+            <small *ngIf="email.errors.required">Email is required</small>
+          </div>
+
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': password.invalid && (password.dirty || password.touched)}">
+          <label for="password">Password</label>
+          <input type="password" formControlName="password" placeholder="Password" class="form-control" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+            <small *ngIf="password.errors.required">Password is required</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <button [disabled]="loginForm.controls.invalid" class="btn btn-primary btn-lg btn-block">Sign In</button>
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+        <div class="form-group">
+          <p [routerLink]="['/sign-up']" class="text-center text-sm">Do not have an account? <a [routerLink]="['/sign-up']">Click here to sign up</a></p>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>

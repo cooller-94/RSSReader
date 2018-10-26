@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 sign-in-up-box">
+      <div class="legend">
+        <h2 class="text-center">Sign Up</h2>
+      </div>
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <div class="form-group" [ngClass]="{'has-error': email.invalid && (email.dirty || email.touched)}">
+          <label for="email">Email</label>
+          <input type="email" formControlName="email" placeholder="Email" class="form-control" tmFocus />
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+            <small *ngIf="email.errors.required">Email is required</small>
+          </div>
+
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': password.invalid && (password.dirty || password.touched)}">
+          <label for="password">Password</label>
+          <input type="password" formControlName="password" placeholder="Password" class="form-control" />
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+            <small *ngIf="password.errors.required">Password is required</small>
+          </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': fullName.invalid && (fullName.dirty || fullName.touched)}">
+          <label for="fullName">Full Name</label>
+          <input type="text" formControlName="fullName" placeholder="Full Name" class="form-control" />
+          <div *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)" class="text-danger">
+            <small *ngIf="fullName.errors.required">Full name is required</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button [disabled]="signUpForm.controls.invalid" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
