@@ -9,7 +9,6 @@ namespace Core.Models
         public string Url { get; set; }
 
         public string Description { get; set; }
-
-        public CategoryDTO Category { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace Infrastructure
         IFeedRepository FeedRepository { get; }
         IPostRepository PostRepository { get; }
         IUserFeedRepository UserFeedRepository { get; }
+        IUserPostDetailRepository UserPostDetailRepository { get; }
         Task SaveAsync();
     }
 }

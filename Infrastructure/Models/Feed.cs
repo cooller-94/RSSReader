@@ -17,14 +17,10 @@ namespace Infrastructure.Models
         [Required]
         public string Description { get; set; }
 
-        public int? CategoryId { get; set; }
-
-        public Category Category { get; set; }
-
         public Guid? ImageId { get; set; }
 
         public Image Image { get; set; }
 
-        public IEnumerable<FeedUser> Users { get; set; }
+        public IEnumerable<UserFeed> Users { get; set; }
     }
 }

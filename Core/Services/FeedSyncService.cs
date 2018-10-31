@@ -29,9 +29,9 @@ namespace Core.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public async Task<IEnumerable<SyncFeedResult>> SyncAllAsync()
+        public async Task<IEnumerable<SyncFeedResult>> SyncAllAsync(string userId)
         {
-            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsForUserAsync("8993153c-a177-4e82-a1e2-aef606443baf");
+            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsForUserAsync(userId);
 
             List<PostDTO> rssPosts = new List<PostDTO>();
 
@@ -72,7 +72,7 @@ namespace Core.Services
 
                 if (syncFeed == null)
                 {
-                    syncFeedResult.Add(new SyncFeedResult(post.Feed.FeedId, post.Feed.Category?.Name, post.Feed.Title));
+                    syncFeedResult.Add(new SyncFeedResult(post.Feed.FeedId, string.Empty, post.Feed.Title));
                 }
                 else
                 {

@@ -8,9 +8,9 @@ namespace Infrastructure.Repositories.Interfaces
     {
         Task<IEnumerable<Post>> GetPostsByHashAsync(string[] hashs);
         Task<Post> GetPostByIdAsync(int id);
-        Task<int> GetCountPostsByFeedIdAsync(int feedId);
-        Task<IEnumerable<Post>> GetUnreadPostsByFeedIdAsync(int feedId);
-        Task<IEnumerable<Post>> GetUnreadPostsByCategoryAsync(string category);
-        Task<IEnumerable<Post>> GetAllUnreadPostsAsync();
+        Task<int> GetCountUnreadPostsByFeedIdAsync(int feedId, string userId);
+        Task<IEnumerable<Post>> GetUnreadPostsByFeedIdAsync(int feedId, string userId, int pageIndex, int totalCount);
+        Task<IEnumerable<Post>> GetUnreadPostsByCategoryAsync(int categoryId, string userId, int pageIndex, int totalCount);
+        Task<IEnumerable<Post>> GetAllUnreadPostsAsync(string userId);
     }
 }

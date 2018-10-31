@@ -24,6 +24,8 @@ import { TopNavMenuComponent } from './top-nav-menu/top-nav-menu.component';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { SignUpComponent } from './account/sign-up/sign-up.component';
 import { UserService } from './shared/services/user.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 export function initializeApp(appConfig: AppSettings) {
   return () => appConfig.load();
@@ -47,6 +49,8 @@ export function initializeApp(appConfig: AppSettings) {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AngularSvgIconModule,
+    NgbDropdownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'latest' },
       { path: 'feeds/:feedId', component: FeedViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },

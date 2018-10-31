@@ -15,9 +15,16 @@ namespace Infrastructure.Repositories
 
         }
 
-        public async Task<int> GetCountPostsByFeedIdAsync(int feedId)
+        public async Task<int> GetCountUnreadPostsByFeedIdAsync(int feedId, string userId)
         {
-            return await _context.Posts.Where(i => i.FeedId == feedId && !i.IsRead).CountAsync();
+            var query = from post in _context.Posts
+                        where post.FeedId == feedId
+                        join postDetail in _context.UserPostDetails on new { PostId = post.PostId, UserId = userId } equals new { PostId = postDetail.PostId, UserId = postDetail.UserId } into gj
+                        from subdetail in gj.DefaultIfEmpty()
+                        where subdetail == null || !subdetail.IsRead
+                        select post;
+
+            return await query.CountAsync();
         }
 
         public async Task<Post> GetPostByIdAsync(int id)
@@ -30,34 +37,52 @@ namespace Infrastructure.Repositories
             return await _context.Posts.Where(item => hashs.Contains(item.PostHash)).ToListAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetUnreadPostsByFeedIdAsync(int feedId)
+        public async Task<IEnumerable<Post>> GetUnreadPostsByFeedIdAsync(int feedId, string userId, int pageIndex, int totalCount)
         {
-            return await _context.Posts
-                .Where(i => i.FeedId == feedId && !i.IsRead)
-                .Include(i => i.Feed).ThenInclude(i => i.Category)
-                .OrderByDescending(i => i.PublishDate)
-                .ThenBy(i => i.DateAdded)
-                .ToListAsync();
+            var query = from post in _context.Posts
+                        where post.FeedId == feedId
+                        join postDetail in _context.UserPostDetails on new { PostId = post.PostId, UserId = userId } equals new { PostId = postDetail.PostId, UserId = postDetail.UserId } into gj
+                        from subdetail in gj.DefaultIfEmpty()
+                        where subdetail == null || !subdetail.IsRead
+                        orderby post.PublishDate descending, post.DateAdded
+                        select post;
+
+            query = query.Include(i => i.Feed);
+
+            return await query.Skip((pageIndex - 1) * totalCount).Take(totalCount).ToListAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetUnreadPostsByCategoryAsync(string category)
+        public async Task<IEnumerable<Post>> GetUnreadPostsByCategoryAsync(int categoryId, string userId, int pageIndex, int totalCount)
         {
-            return await _context.Posts
-                .Where(i => !i.IsRead && i.Feed.Category != null && i.Feed.Category.Name == category)
-                .Include(i => i.Feed).ThenInclude(i => i.Category)
-                .OrderByDescending(i => i.PublishDate)
-                .ThenBy(i => i.DateAdded)
-                .ToListAsync();
+            var query = from post in _context.Posts
+                        join userFeed in _context.UserFeeds on new { post.FeedId, UserId = userId } equals new { userFeed.FeedId, userFeed.UserId } into userFeeds
+                        from uf in userFeeds
+                        where uf.CategoryId == categoryId
+                        join postDetail in _context.UserPostDetails on new { PostId = post.PostId, UserId = userId } equals new { PostId = postDetail.PostId, UserId = postDetail.UserId } into gj
+                        from subdetail in gj.DefaultIfEmpty()
+                        where subdetail == null || !subdetail.IsRead
+                        orderby post.PublishDate descending, post.DateAdded
+                        select post;
+
+            query = query.Include(i => i.Feed);
+
+            return await query.Skip((pageIndex - 1) * totalCount).Take(totalCount).ToListAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetAllUnreadPostsAsync()
+        public async Task<IEnumerable<Post>> GetAllUnreadPostsAsync(string userId)
         {
-            return await _context.Posts
-                .Where(i => !i.IsRead)
-                .Include(i => i.Feed).ThenInclude(i => i.Category)
-                .OrderByDescending(i => i.PublishDate)
-                .ThenBy(i => i.DateAdded)
-                .ToListAsync();
+            var query = from post in _context.Posts
+                        join userFeed in _context.UserFeeds on new { post.FeedId, UserId = userId } equals new { userFeed.FeedId, userFeed.UserId } into userFeeds
+                        from uf in userFeeds
+                        join postDetail in _context.UserPostDetails on new { PostId = post.PostId, UserId = userId } equals new { PostId = postDetail.PostId, UserId = postDetail.UserId } into gj
+                        from subdetail in gj.DefaultIfEmpty()
+                        where subdetail == null || !subdetail.IsRead
+                        orderby post.PublishDate descending, post.DateAdded
+                        select post;
+
+            query = query.Include(i => i.Feed);
+
+            return await query.ToListAsync();
         }
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.Interfaces
 {
-    public interface IUserFeedRepository : IRepositoryBase<FeedUser>
+    public interface IUserFeedRepository : IRepositoryBase<UserFeed>
     {
-        Task<IEnumerable<FeedUser>> GetAllFeedUsersAsync(string userId);
+        Task<IEnumerable<UserFeed>> GetAllFeedUsersAsync(string userId);
     }
 }

@@ -6,6 +6,6 @@ namespace Core.Services.Interfaces
 {
     public interface IFeedSyncService
     {
-        Task<IEnumerable<SyncFeedResult>> SyncAllAsync();
+        Task<IEnumerable<SyncFeedResult>> SyncAllAsync(string userId);
     }
 }

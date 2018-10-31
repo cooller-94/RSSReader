@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace RSSReader.Migrations
 {
     [DbContext(typeof(RSSReaderContext))]
-    [Migration("20181026145611_InitDB")]
-    partial class InitDB
+    [Migration("20181030100940_InitialCreateNew")]
+    partial class InitialCreateNew
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,31 +64,6 @@ namespace RSSReader.Migrations
                     b.ToTable("Feeds");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.FeedUser", b =>
-                {
-                    b.Property<int>("FeedId")
-                        .HasColumnName("feed_id");
-
-                    b.Property<string>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnName("category_id");
-
-                    b.Property<int>("FeedInUserId")
-                        .HasColumnName("feed_user_id");
-
-                    b.HasKey("FeedId", "UserId");
-
-                    b.HasAlternateKey("FeedInUserId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FeedUser");
-                });
-
             modelBuilder.Entity("Infrastructure.Models.Image", b =>
                 {
                     b.Property<Guid>("ImageId")
@@ -129,8 +104,6 @@ namespace RSSReader.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("FeedId");
-
-                    b.Property<bool>("IsRead");
 
                     b.Property<string>("Link");
 
@@ -200,6 +173,44 @@ namespace RSSReader.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.UserFeed", b =>
+                {
+                    b.Property<int>("FeedId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<int>("CategoryId");
+
+                    b.HasKey("FeedId", "UserId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFeeds");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.UserPostDetail", b =>
+                {
+                    b.Property<int>("PostId");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<bool>("IsRead");
+
+                    b.Property<int?>("UserFeedFeedId");
+
+                    b.Property<string>("UserFeedUserId");
+
+                    b.HasKey("PostId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserFeedFeedId", "UserFeedUserId");
+
+                    b.ToTable("UserPostDetails");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -314,7 +325,7 @@ namespace RSSReader.Migrations
 
             modelBuilder.Entity("Infrastructure.Models.Feed", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Category", "Category")
+                    b.HasOne("Infrastructure.Models.Category")
                         .WithMany("Feeds")
                         .HasForeignKey("CategoryId");
 
@@ -323,7 +334,15 @@ namespace RSSReader.Migrations
                         .HasForeignKey("ImageId");
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.FeedUser", b =>
+            modelBuilder.Entity("Infrastructure.Models.Post", b =>
+                {
+                    b.HasOne("Infrastructure.Models.Feed", "Feed")
+                        .WithMany()
+                        .HasForeignKey("FeedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.UserFeed", b =>
                 {
                     b.HasOne("Infrastructure.Models.Category", "Category")
                         .WithMany()
@@ -341,12 +360,21 @@ namespace RSSReader.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Infrastructure.Models.Post", b =>
+            modelBuilder.Entity("Infrastructure.Models.UserPostDetail", b =>
                 {
-                    b.HasOne("Infrastructure.Models.Feed", "Feed")
-                        .WithMany("Posts")
-                        .HasForeignKey("FeedId")
+                    b.HasOne("Infrastructure.Models.Post", "Post")
+                        .WithMany("PostDetails")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Infrastructure.Models.User", "User")
+                        .WithMany("PostDetails")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Infrastructure.Models.UserFeed")
+                        .WithMany("PostDetails")
+                        .HasForeignKey("UserFeedFeedId", "UserFeedUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

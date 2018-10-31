@@ -1,51 +1,66 @@
 <div class='main-nav'>
-  <div class='navbar navbar-default'>
-    <div class='clearfix'></div>
-
-    <div class="feeds-navigation">
-
-      <div class="feed-label">
-        <label>Feeds</label>
+  <div class='navbar navbar-light bg-light border-right border-primary'>
+    <div class="align-self-start w-100">
+      <div class='navbar-header'>
+        <a class='navbar-brand' [routerLink]='["/"]'>RSS Reader</a>
       </div>
 
-      <div class='clearfix'></div>
+      <div class="feeds-navigation align-self-start w-100 mt-4">
 
-      <div class="panel-group category-group">
-        <div class="panel panel-success active">
-          <div class="panel-heading category-item">
-            <h6 class="panel-title f-label" [ngClass]="{'font-bold': getTotalCount() > 0 }">
-              <span class="glyphicon glyphicon-menu-hamburger"></span>
-              <a [routerLink]="['latest']" [routerLinkActive]="['active']">All<span class="badge badge-post-count" *ngIf="getTotalCount() > 0">{{getTotalCount()}}</span></a>
-            </h6>
+        <div class="feed-label">
+          <label>Feeds</label>
+        </div>
+
+        <div class='clearfix'></div>
+
+        <!--ALL-->
+        <div class="list-group">
+          <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+            <a class="d-flex justify-content-start" [routerLink]="['latest']" [routerLinkActive]="['active']">
+              <img src="assets/icons/baseline-chevron_right-24px.svg" class="align-middle" />
+              <span>All</span>
+            </a>
+            <span *ngIf="getTotalCount() > 0" class="badge badge-dark">{{getTotalCount()}}</span>
           </div>
         </div>
-      </div>
 
-      <div class="panel-group category-group" *ngFor="let category of categoriesGroup">
-        <div class="panel panel-success">
-          <div class="panel-heading active category-item">
-            <h6 class="panel-title f-label" [ngClass]="{'font-bold': getCategoryPostsCount(category) > 0 }">
-              <span [ngClass]="category.isExpanded ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-right'" class="glyphicon" (click)="collapse(category)"></span>
-              <a [routerLink]="['categories', category.name]" [routerLinkActive]="['active']" *ngIf="getCategoryPostsCount(category) > 0">{{category.name}}<span class="badge badge-post-count">{{getCategoryPostsCount(category)}}</span></a>
-            </h6>
-          </div>
-          <div id="collapse1" class="panel-collapse" [ngClass]="{'collapse': !category.isExpanded }">
-            <div class="list-group">
-              <a href="#" class="list-group-item f-label category-item" *ngFor="let feed of category.feedsInfo" [routerLink]="['feeds', feed.feedId]" [routerLinkActive]="['active']">
-                <img *ngIf="feed.imageUrl" [src]="feed.imageUrl" class="feed-icon" width="16" height="16" />
-                <span [ngClass]="{'font-bold': feed.postsCount > 0}">{{feed.title}}</span>
-                <span class="badge badgepurple badge-post-count" *ngIf="feed.postsCount > 0">{{feed.postsCount}}</span>
-              </a>
+        <!--CATEGORIES-->
+        <div class="list-group" *ngFor="let category of categoriesGroup; let i = index">
+          <div *ngFor="let feed of category.feedsInfo">
+
+            <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+              <div class="d-flex justify-content-start">
+                <span (click)="collapse(category)">
+                  <img [hidden]="category.isExpanded" src="assets/icons/baseline-chevron_right-24px.svg" class="align-middle" />
+                  <img [hidden]="!category.isExpanded" src="assets/icons/baseline-expand_more-24px.svg" class="align-middle" />
+                </span>
+                <a [routerLink]="['categories', category.name]" [routerLinkActive]="['active']" class="float-left">{{category.name}}</a>
+              </div>
+              <span class="badge badge-dark" *ngIf="getCategoryPostsCount(category) > 0">{{getCategoryPostsCount(category)}}</span>
+            </div>
+
+            <!--FEEDS-->
+            <div class="list-group feed-source" *ngIf="category.isExpanded">
+              <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action align-items-start">
+                <a [routerLink]="['feeds', feed.feedId]" [routerLinkActive]="['active']">{{feed.title}}</a>
+                <span *ngIf="feed.postsCount > 0" class="badge badge-dark">{{feed.postsCount}}</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <div class="d-flex justify-content-center">
+          <a role="button" href="#" class="text-center mt-1">Add new category</a>
+        </div>
+
       </div>
     </div>
 
-    <div class="footer-actions">
-      <a class="btn btn-success btn-lg">
-        <span class="glyphicon glyphicon-plus"></span> Add new feed
-      </a>
+
+    <div class="f-actions align-self-end w-100">
+      <button type="button" class="btn btn-outline-primary btn-lg btn-block">
+        Add new feed
+      </button>
     </div>
   </div>
 </div>

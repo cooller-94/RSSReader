@@ -27,10 +27,14 @@ namespace Core.Services
                 throw new ArgumentNullException(nameof(category));
             }
 
-            Category dbCategory = _mapper.Map<Category>(category);
+            Category dbCategory = await _unitOfWork.CategoryRepository.GetCategoryByTitle(category.Name);
 
-            _unitOfWork.CategoryRepository.Create(dbCategory);
-            await _unitOfWork.SaveAsync();
+            if (dbCategory == null)
+            {
+                dbCategory = _mapper.Map<Category>(category);
+                _unitOfWork.CategoryRepository.Create(dbCategory);
+                await _unitOfWork.SaveAsync();
+            }
         }
 
         public Task<IEnumerable<CategoryDTO>> GetAllAsync()

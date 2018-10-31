@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Models;
@@ -33,26 +34,33 @@ namespace Core.Services
                 return;
             }
 
-            post.IsRead = true;
+            //post.IsRead = true;
             _unitOfWork.PostRepository.Update(post);
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<PostDTO>> GetUnreadPostsAsync(int feedId)
+        public async Task<IEnumerable<PostDTO>> GetUnreadPostsAsync(int feedId, string userId)
         {
-            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetUnreadPostsByFeedIdAsync(feedId);
+            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetUnreadPostsByFeedIdAsync(feedId, userId, 1, 30);
             return _mapper.Map<IEnumerable<PostDTO>>(posts);
         }
 
-        public async Task<IEnumerable<PostDTO>> GetUnreadPostsByCategoryAsync(string category)
+        public async Task<IEnumerable<PostDTO>> GetUnreadPostsByCategoryAsync(string category, string userId)
         {
-            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetUnreadPostsByCategoryAsync(category);
+            Category dbCategory = await _unitOfWork.CategoryRepository.GetCategoryByTitle(category);
+
+            if (dbCategory == null)
+            {
+                return null;
+            }
+
+            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetUnreadPostsByCategoryAsync(dbCategory.CategoryId, userId, 1, 30);
             return _mapper.Map<IEnumerable<PostDTO>>(posts);
         }
 
-        public async Task<IEnumerable<PostDTO>> GetAllUnreadPostsAsync()
+        public async Task<IEnumerable<PostDTO>> GetAllUnreadPostsAsync(string userId)
         {
-            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetAllUnreadPostsAsync();
+            IEnumerable<Post> posts = await _unitOfWork.PostRepository.GetAllUnreadPostsAsync(userId);
             return _mapper.Map<IEnumerable<PostDTO>>(posts);
         }
     }

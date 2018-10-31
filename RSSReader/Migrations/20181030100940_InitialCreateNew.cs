@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RSSReader.Migrations
 {
-    public partial class InitDB : Migration
+    public partial class InitialCreateNew : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -194,8 +194,8 @@ namespace RSSReader.Migrations
                     Title = table.Column<string>(nullable: false),
                     Url = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true),
-                    ImageId = table.Column<Guid>(nullable: true)
+                    ImageId = table.Column<Guid>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -215,39 +215,6 @@ namespace RSSReader.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FeedUser",
-                columns: table => new
-                {
-                    feed_user_id = table.Column<int>(nullable: false),
-                    user_id = table.Column<string>(nullable: false),
-                    feed_id = table.Column<int>(nullable: false),
-                    category_id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedUser", x => new { x.feed_id, x.user_id });
-                    table.UniqueConstraint("AK_FeedUser_feed_user_id", x => x.feed_user_id);
-                    table.ForeignKey(
-                        name: "FK_FeedUser_Categories_category_id",
-                        column: x => x.category_id,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FeedUser_Feeds_feed_id",
-                        column: x => x.feed_id,
-                        principalTable: "Feeds",
-                        principalColumn: "FeedId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FeedUser_AspNetUsers_user_id",
-                        column: x => x.user_id,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -261,7 +228,6 @@ namespace RSSReader.Migrations
                     CommentsUrl = table.Column<string>(nullable: true),
                     Link = table.Column<string>(nullable: true),
                     PublishDate = table.Column<DateTime>(nullable: true),
-                    IsRead = table.Column<bool>(nullable: false),
                     FeedId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -273,6 +239,70 @@ namespace RSSReader.Migrations
                         principalTable: "Feeds",
                         principalColumn: "FeedId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserFeeds",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    FeedId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFeeds", x => new { x.FeedId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserFeeds_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserFeeds_Feeds_FeedId",
+                        column: x => x.FeedId,
+                        principalTable: "Feeds",
+                        principalColumn: "FeedId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserFeeds_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPostDetails",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    IsRead = table.Column<bool>(nullable: false),
+                    UserFeedFeedId = table.Column<int>(nullable: true),
+                    UserFeedUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPostDetails", x => new { x.PostId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserPostDetails_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPostDetails_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPostDetails_UserFeeds_UserFeedFeedId_UserFeedUserId",
+                        columns: x => new { x.UserFeedFeedId, x.UserFeedUserId },
+                        principalTable: "UserFeeds",
+                        principalColumns: new[] { "FeedId", "UserId" },
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -325,19 +355,29 @@ namespace RSSReader.Migrations
                 column: "ImageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FeedUser_category_id",
-                table: "FeedUser",
-                column: "category_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FeedUser_user_id",
-                table: "FeedUser",
-                column: "user_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Posts_FeedId",
                 table: "Posts",
                 column: "FeedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFeeds_CategoryId",
+                table: "UserFeeds",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFeeds_UserId",
+                table: "UserFeeds",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPostDetails_UserId",
+                table: "UserPostDetails",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPostDetails_UserFeedFeedId_UserFeedUserId",
+                table: "UserPostDetails",
+                columns: new[] { "UserFeedFeedId", "UserFeedUserId" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -358,19 +398,22 @@ namespace RSSReader.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FeedUser");
-
-            migrationBuilder.DropTable(
-                name: "Posts");
+                name: "UserPostDetails");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "UserFeeds");
 
             migrationBuilder.DropTable(
                 name: "Feeds");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");

@@ -23,7 +23,7 @@ export class TitleOnlyTableComponent {
   public onPostClick(post: Post): void {
     window.open(post.link, "_blank");
     post.isRead = true;
-    this.stateService.markAsRead(post.feed.categoryTitle, post.feed.feedId);
+    this.stateService.markAsRead(post.feed.feedId);
     this.onPostClickEmmiter.emit(post);
   }
 }

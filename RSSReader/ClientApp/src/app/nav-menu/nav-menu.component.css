@@ -19,9 +19,6 @@ li.link-active a:focus {
   /*z-index: 1;*/
 }
 
-.feeds-navigation{
-  margin-top: 2em;
-}
 
 .category-group {
   margin-bottom: 5px;
@@ -42,9 +39,6 @@ li.link-active a:focus {
   float: right;
 }
 
-.feeds-navigation .glyphicon {
-  margin-right: 5px;
-}
 
 .feed-label {
   margin-left: 5px;
@@ -67,19 +61,21 @@ li.link-active a:focus {
   width: 16px;
 }
 
-.footer-actions {
-  bottom: 0;
-  position: absolute;
-  width: 100%;
-  margin-bottom: 5px;
+.list-group-item {
+  cursor: pointer;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  font-weight: bold;
+  padding-left: 0.1em;
 }
 
 
 @media (min-width: 768px) {
   /* On small screens, convert the nav menu to a vertical sidebar */
   .main-nav {
-    height: 95%;
+    height: 100%;
     width: calc(18% - 20px);
+    z-index:9999;
   }
 
   .navbar {
@@ -118,5 +114,9 @@ li.link-active a:focus {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .feed-source{
+    margin-left: 10px;
   }
 }

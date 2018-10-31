@@ -13,6 +13,6 @@ namespace Web.Models
 
         [Required]
         public string Url { get; set; }
-        public string CategoryTitle { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Core.Services
             _feedParser = feedParser;
         }
 
-        public async Task Create(FeedDTO feed)
+        public async Task Create(FeedDTO feed, string category, string userId)
         {
             if (feed == null)
             {
@@ -34,30 +34,26 @@ namespace Core.Services
 
             Feed dbFeed = _mapper.Map<Feed>(feed);
 
-            if (dbFeed.Category != null)
-            {
-                Category dbCategory = await _unitOfWork.CategoryRepository.GetCategoryByTitle(dbFeed.Category.Name);
+            UserFeed feedUser = new UserFeed();
 
-                if (dbCategory != null)
-                {
-                    dbFeed.Category.CategoryId = dbCategory.CategoryId;
-                }
+            if (!string.IsNullOrEmpty(category))
+            {
+                feedUser.Category = await GetCategoryAsync(category);
             }
 
             _unitOfWork.FeedRepository.Create(dbFeed);
+
+            feedUser.Feed = dbFeed;
+            feedUser.UserId = userId;
+
+            _unitOfWork.UserFeedRepository.Create(feedUser);
             await _unitOfWork.SaveAsync();
         }
 
-        private async Task<IEnumerable<PostDTO>> GetItemsAsync(string url)
+        private async Task<Category> GetCategoryAsync(string category)
         {
-            RSSFeed rssFeed = await _feedParser.ParseAsync(url);
-
-            if (rssFeed == null || rssFeed.Channel == null || rssFeed.Channel.Items == null)
-            {
-                return null;
-            }
-
-            return _mapper.Map<IEnumerable<PostDTO>>(rssFeed.Channel.Items);
+            Category dbCategory = await _unitOfWork.CategoryRepository.GetCategoryByTitle(category);
+            return dbCategory != null ? dbCategory : new Category() { Name = category };
         }
 
 
@@ -84,17 +80,15 @@ namespace Core.Services
             return feed;
         }
 
-        public async Task<IEnumerable<FeedInformation>> GetAllFeedsAsync()
+        public async Task<IEnumerable<FeedInformation>> GetAllFeedsAsync(string userId)
         {
-            IEnumerable<FeedUser> userFeeds = await _unitOfWork.UserFeedRepository.GetAllFeedUsersAsync("e5546dac-e97a-4602-9563-d07973d54d4b");
+            IEnumerable<UserFeed> userFeeds = await _unitOfWork.UserFeedRepository.GetAllFeedUsersAsync(userId);
 
-            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllFeedsForUserAsync("8993153c-a177-4e82-a1e2-aef606443baf");
-
-            IEnumerable<FeedInformation> feedInformation = _mapper.Map<IEnumerable<FeedInformation>>(feeds);
+            IEnumerable<FeedInformation> feedInformation = _mapper.Map<IEnumerable<FeedInformation>>(userFeeds);
 
             foreach (FeedInformation information in feedInformation)
             {
-                information.PostsCount = await _unitOfWork.PostRepository.GetCountPostsByFeedIdAsync(information.FeedId);
+                information.PostsCount = await _unitOfWork.PostRepository.GetCountUnreadPostsByFeedIdAsync(information.FeedId, userId);
             }
 
             return feedInformation;

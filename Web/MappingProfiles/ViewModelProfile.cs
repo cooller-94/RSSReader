@@ -12,14 +12,12 @@ namespace Web.MappingProfiles
             CreateMap<CategoryDTO, string>().ConvertUsing(src => src?.Name);
             CreateMap<string, CategoryDTO>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
 
-            CreateMap<FeedModel, FeedDTO>()
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.CategoryTitle))
-                .ReverseMap()
-                .ForMember(dest => dest.CategoryTitle, opt => opt.MapFrom(src => src.Category));
+            CreateMap<FeedModel, FeedDTO>();
 
             CreateMap<PostDTO, PostModel>();
             CreateMap<SyncFeedResultModel, SyncFeedResult>();
             CreateMap<FeedInformation, FeedInformationModel>();
+            CreateMap<CategoryModel, CategoryDTO>().ReverseMap();
         }
     }
 }

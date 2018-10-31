@@ -40,14 +40,16 @@ export class StateService {
     return sum;
   }
 
-  public markAsRead(category: string, feedId: number): void {
-    let categoryGroup = this.groupCategoriesBehaviorSubject.value.find(i => i.name === category);
+  public markAsRead(feedId: number): void {
 
-    if (categoryGroup) {
-      let feed = categoryGroup.feedsInfo.find(i => i.feedId === feedId);
+    let categories = this.groupCategoriesBehaviorSubject.value;
+
+    for (let i = 0; i < categories.length; i++) {
+      let feed = categories[i].feedsInfo.find(i => i.feedId === feedId);
 
       if (feed) {
         feed.postsCount--;
+        break;
       }
     }
   }

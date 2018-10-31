@@ -9,6 +9,7 @@ namespace Infrastructure.Models
         public string FullName { get; set; }
         public string PictureUrl { get; set; }
 
-        public ICollection<FeedUser> Feeds { get; set; }
+        public IEnumerable<UserFeed> Feeds { get; set; }
+        public IEnumerable<UserPostDetail> PostDetails { get; set; }
     }
 }
