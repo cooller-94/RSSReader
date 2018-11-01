@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Core.Services
@@ -37,10 +38,18 @@ namespace Core.Services
                     return null;
                 }
 
-                using (TextReader reader = new StringReader(dataString))
+                try
                 {
-                    RSSFeed result = (RSSFeed)serializer.Deserialize(reader);
-                    return result;
+                    using (TextReader reader = new StringReader(dataString))
+                    {
+                        RSSFeed result = (RSSFeed)serializer.Deserialize(reader);
+                        return result;
+                    }
+                }
+                catch (InvalidOperationException ioe)
+                {
+                    _logger.LogError("An error occurred during parsing xml", ioe);
+                    return null;
                 }
             }
         }

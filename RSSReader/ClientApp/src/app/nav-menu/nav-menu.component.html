@@ -1,10 +1,6 @@
 <div class='main-nav'>
-  <div class='navbar navbar-light bg-light border-right border-primary'>
+  <div class='navbar navbar-light bg-light'>
     <div class="align-self-start w-100">
-      <div class='navbar-header'>
-        <a class='navbar-brand' [routerLink]='["/"]'>RSS Reader</a>
-      </div>
-
       <div class="feeds-navigation align-self-start w-100 mt-4">
 
         <div class="feed-label">
@@ -16,10 +12,10 @@
         <!--ALL-->
         <div class="list-group">
           <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action">
-            <a class="d-flex justify-content-start" [routerLink]="['latest']" [routerLinkActive]="['active']">
-              <img src="assets/icons/baseline-chevron_right-24px.svg" class="align-middle" />
-              <span>All</span>
-            </a>
+              <div class="d-flex justify-content-start">
+                <img src="assets/icons/baseline-list-24px.svg" class="align-middle" />
+                <span [routerLink]="['latest']" [routerLinkActive]="['active']" class="ml-3">All</span>
+              </div>
             <span *ngIf="getTotalCount() > 0" class="badge badge-dark">{{getTotalCount()}}</span>
           </div>
         </div>
@@ -28,13 +24,13 @@
         <div class="list-group" *ngFor="let category of categoriesGroup; let i = index">
           <div *ngFor="let feed of category.feedsInfo">
 
-            <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+            <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action" routerLinkActive="active-link" [routerLink]="['categories', category.name]">
               <div class="d-flex justify-content-start">
                 <span (click)="collapse(category)">
                   <img [hidden]="category.isExpanded" src="assets/icons/baseline-chevron_right-24px.svg" class="align-middle" />
                   <img [hidden]="!category.isExpanded" src="assets/icons/baseline-expand_more-24px.svg" class="align-middle" />
                 </span>
-                <a [routerLink]="['categories', category.name]" [routerLinkActive]="['active']" class="float-left">{{category.name}}</a>
+                <span class="ml-3">{{category.name}}</span>
               </div>
               <span class="badge badge-dark" *ngIf="getCategoryPostsCount(category) > 0">{{getCategoryPostsCount(category)}}</span>
             </div>
@@ -42,7 +38,7 @@
             <!--FEEDS-->
             <div class="list-group feed-source" *ngIf="category.isExpanded">
               <div class="mt-0 mb-0 list-group-item d-flex justify-content-between align-items-center list-group-item-action align-items-start">
-                <a [routerLink]="['feeds', feed.feedId]" [routerLinkActive]="['active']">{{feed.title}}</a>
+                <span [routerLink]="['feeds', feed.feedId]" [routerLinkActive]="['active']">{{feed.title}}</span>
                 <span *ngIf="feed.postsCount > 0" class="badge badge-dark">{{feed.postsCount}}</span>
               </div>
             </div>
@@ -58,7 +54,7 @@
 
 
     <div class="f-actions align-self-end w-100">
-      <button type="button" class="btn btn-outline-primary btn-lg btn-block">
+      <button type="button" class="btn btn-outline-primary btn-lg btn-block" routerLink="find">
         Add new feed
       </button>
     </div>

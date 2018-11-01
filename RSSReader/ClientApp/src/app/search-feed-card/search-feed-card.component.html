@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="card bg-light mb-3 w-100">
+    <div class="card-header d-flex justify-content-between bd-highlight">
+      <div class="bd-highlight align-self-center">
+        <img [src]="feed.pictureUrl" width="50" height="50" />
+        <strong [innerHTML]="feed.title"></strong>
+      </div>
+      <div class="bd-highlight align-self-center">
+        <span role="button" class="badge badge-pill badge-primary" style="cursor: pointer" (click)="onSubscribeClick()">Subscribe</span>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="feed.description">
+      <!--<h5 class="card-title">{{feed.title}}</h5>-->
+      <p class="card-text">{{feed.description}}</p>
+    </div>
+  </div>
+</div>
+

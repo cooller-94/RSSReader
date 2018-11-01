@@ -47,6 +47,9 @@ namespace RSSReader.Migrations
 
                     b.Property<Guid?>("ImageId");
 
+                    b.Property<string>("Link")
+                        .IsRequired();
+
                     b.Property<string>("Title")
                         .IsRequired();
 

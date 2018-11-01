@@ -11,7 +11,8 @@ namespace Core.Services.Interfaces
         Task<IEnumerable<FeedDTO>> GetAllAsync();
         Task Create(FeedDTO feed, string category, string userId);
 
-        Task<RSSFeed> FindFeed(string url);
+        Task<IEnumerable<FeedDTO>> GetAllByTerm(string term);
         Task<IEnumerable<FeedInformation>> GetAllFeedsAsync(string userId);
+
     }
 }

@@ -56,7 +56,6 @@ namespace Core.Services
             return dbCategory != null ? dbCategory : new Category() { Name = category };
         }
 
-
         public Task<IEnumerable<FeedDTO>> GetAllByCategoryAsync(string category)
         {
             throw new NotImplementedException();
@@ -68,16 +67,10 @@ namespace Core.Services
             return _mapper.Map<IEnumerable<FeedDTO>>(feeds);
         }
 
-        public async Task<RSSFeed> FindFeed(string url)
+        public async Task<IEnumerable<FeedDTO>> GetAllByTerm(string term)
         {
-            if (url == null)
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
-            RSSFeed feed = await _feedParser.ParseAsync(url);
-
-            return feed;
+            IEnumerable<Feed> feeds = await _unitOfWork.FeedRepository.GetAllByTerm(term);
+            return _mapper.Map<IEnumerable<FeedDTO>>(feeds);
         }
 
         public async Task<IEnumerable<FeedInformation>> GetAllFeedsAsync(string userId)

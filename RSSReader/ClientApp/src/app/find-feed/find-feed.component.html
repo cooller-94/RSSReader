@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="search-section row d-flex justify-content-center mt-5">
+    <div class="input-group mb-3 input-group-lg">
+      <input type="text" class="form-control" #searchInput placeholder="Search by website or RSS link" (keyup.enter)="find(searchInput.value)" autofocus>
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button" (click)="find(searchInput.value)">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-start">
+    <div class="bd-highlight" *ngIf="searchResult">
+      <h5 class="text-muted">FOUNDED SOURCES:</h5>
+    </div>
+    <div class="bd-highlight" *ngIf="message">
+      <h5 class="text-muted" [innerHTML]="message"></h5>
+    </div>
+  </div>
+  <div class="search-result-section row d-flex justify-content-start mt-3">
+    <div *ngIf="searchResult" class="w-75 bd-highlight">
+      <app-search-feed-card *ngFor="let currentSource of searchResult" [feed]="currentSource"></app-search-feed-card>
+    </div>
+  </div>
+</div>

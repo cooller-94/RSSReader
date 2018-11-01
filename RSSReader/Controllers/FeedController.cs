@@ -21,13 +21,15 @@ namespace RSSReader.Controllers
         private readonly IMapper _mapper;
         private readonly IFeedSyncService _syncService;
         private readonly ClaimsPrincipal _caller;
+        private readonly ISearchFeedManager _searchFeedManager;
 
-        public FeedController(IFeedService feedService, IMapper mapper, IFeedSyncService syncService, IHttpContextAccessor httpContextAccessor)
+        public FeedController(IFeedService feedService, IMapper mapper, IFeedSyncService syncService, IHttpContextAccessor httpContextAccessor, ISearchFeedManager searchFeedManager)
         {
             _feedService = feedService;
             _mapper = mapper;
             _syncService = syncService;
             _caller = httpContextAccessor.HttpContext.User;
+            _searchFeedManager = searchFeedManager;
         }
 
         [HttpPost]
@@ -59,6 +61,21 @@ namespace RSSReader.Controllers
         {
             IEnumerable<FeedInformation> feeds = await _feedService.GetAllFeedsAsync(_caller.Claims.FirstOrDefault(c => c.Type == "id").Value);
             return _mapper.Map<IEnumerable<FeedInformationModel>>(feeds);
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> SearchFeeds(string term)
+        {
+            if (string.IsNullOrEmpty(term))
+            {
+                return BadRequest("Term should be specified!");
+            }
+
+            IEnumerable<FeedDTO> feeds = await _searchFeedManager.SearchFeeds(term);
+            IEnumerable<SearchFeedResultModel> result = _mapper.Map<IEnumerable<SearchFeedResultModel>>(feeds);
+
+            return Ok(result);
         }
     }
 }

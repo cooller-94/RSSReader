@@ -1,0 +1,18 @@
+<ng-template #rt let-r="result" let-t="term">
+  <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+</ng-template>
+
+<div class="modal-header">
+  <h4 class="modal-title">Enter a category</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <label for="select-category">Category:</label>
+  <input id="select-category" type="text" class="form-control" [(ngModel)]="category" [ngbTypeahead]="search" autofocus [resultFormatter]="formatter" [inputFormatter]="formatter"/>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="button" class="btn btn-outline-success">Submit</button>
+</div>

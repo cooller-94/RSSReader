@@ -18,6 +18,9 @@ namespace Web.MappingProfiles
             CreateMap<SyncFeedResultModel, SyncFeedResult>();
             CreateMap<FeedInformation, FeedInformationModel>();
             CreateMap<CategoryModel, CategoryDTO>().ReverseMap();
+
+            CreateMap<FeedDTO, SearchFeedResultModel>()
+                .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(src => src.Image == null ? null : src.Image.Url));
         }
     }
 }

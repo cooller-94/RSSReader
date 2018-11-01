@@ -41,5 +41,12 @@ namespace Core.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesForUser(string userId)
+        {
+            IEnumerable<Category> categories = await _unitOfWork.CategoryRepository.GetAllCategoriesForUser(userId);
+
+            return _mapper.Map<IEnumerable<CategoryDTO>>(categories);
+        }
     }
 }

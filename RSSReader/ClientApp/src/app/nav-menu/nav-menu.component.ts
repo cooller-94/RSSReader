@@ -3,6 +3,7 @@ import { FeedService } from '../shared/services/feed.service';
 import { CategoryGroup } from '../shared/models/category-group.model';
 import { StateService } from '../shared/services/state.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
   private categoriesGroupSubscription: Subscription;
 
-  constructor(private feedService: FeedService, private stateService: StateService) { }
+  constructor(private feedService: FeedService, private stateService: StateService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadFeedInformation();
@@ -49,5 +50,9 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
   public getTotalCount(): number {
     return this.stateService.totalCountUnreadPosts();
+  }
+
+  public navigateToCategory(name: string): void {
+    this.router.navigate(['categories', name]);
   }
 }

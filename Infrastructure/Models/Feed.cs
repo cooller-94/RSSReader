@@ -17,6 +17,9 @@ namespace Infrastructure.Models
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string Link { get; set; }
+
         public Guid? ImageId { get; set; }
 
         public Image Image { get; set; }

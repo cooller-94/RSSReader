@@ -24,8 +24,12 @@ import { TopNavMenuComponent } from './top-nav-menu/top-nav-menu.component';
 import { JwtInterceptor } from './shared/interceptors/jwt.interceptor';
 import { SignUpComponent } from './account/sign-up/sign-up.component';
 import { UserService } from './shared/services/user.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { FindFeedComponent } from './find-feed/find-feed.component';
+import { SearchFeedCardComponent } from './search-feed-card/search-feed-card.component';
+import { SelectCategoryComponent } from './shared/components/select-category/select-category.component';
+import { CategoryService } from './shared/services/category.service';
 
 export function initializeApp(appConfig: AppSettings) {
   return () => appConfig.load();
@@ -42,7 +46,10 @@ export function initializeApp(appConfig: AppSettings) {
     WelcomeComponent,
     LoginComponent,
     SignUpComponent,
-    TopNavMenuComponent
+    TopNavMenuComponent,
+    FindFeedComponent,
+    SearchFeedCardComponent,
+    SelectCategoryComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,6 +58,8 @@ export function initializeApp(appConfig: AppSettings) {
     ReactiveFormsModule,
     AngularSvgIconModule,
     NgbDropdownModule.forRoot(),
+    NgbModalModule.forRoot(),
+    NgbTypeaheadModule.forRoot(),
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'latest' },
       { path: 'feeds/:feedId', component: FeedViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },
@@ -58,9 +67,11 @@ export function initializeApp(appConfig: AppSettings) {
       { path: 'latest', component: CategoryViewComponent, pathMatch: 'full', canActivate: [AuthGuard] },
       { path: 'welcome', component: WelcomeComponent, pathMatch: 'full' },
       { path: 'login', component: LoginComponent, pathMatch: 'full' },
+      { path: 'find', component: FindFeedComponent, pathMatch: 'full', canActivate: [AuthGuard]  },
       { path: 'sign-up', component: SignUpComponent, pathMatch: 'full' },
     ])
   ],
+  entryComponents: [SelectCategoryComponent],
   providers: [AppSettings,
     { provide: APP_INITIALIZER, useFactory: initializeApp, deps: [AppSettings], multi: true },
     FeedService,
@@ -71,7 +82,8 @@ export function initializeApp(appConfig: AppSettings) {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     AuthService,
     AuthGuard,
-    UserService
+    UserService,
+    CategoryService
   ],
   bootstrap: [AppComponent]
 })

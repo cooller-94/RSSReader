@@ -1,6 +1,9 @@
-li .glyphicon {
-  margin-right: 10px;
+
+.navbar{
+  background-color: white !important;
+
 }
+
 
 /* Highlighting rules for nav menu items */
 li.link-active a,
@@ -67,15 +70,23 @@ li.link-active a:focus {
   padding-bottom: 0.2em;
   font-weight: bold;
   padding-left: 0.1em;
+  background-color: white;
+  border: none;
 }
 
+.list-group-item-action:hover {
+  background: lightcyan;
+}
+
+.active-link {
+  background: lightcyan;
+}
 
 @media (min-width: 768px) {
   /* On small screens, convert the nav menu to a vertical sidebar */
   .main-nav {
-    height: 100%;
+    height: 95%;
     width: calc(18% - 20px);
-    z-index:9999;
   }
 
   .navbar {

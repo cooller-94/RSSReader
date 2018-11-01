@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Models;
@@ -19,10 +20,13 @@ namespace RSSReader.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        private readonly ClaimsPrincipal _caller;
+
+        public CategoryController(ICategoryService categoryService, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _categoryService = categoryService;
             _mapper = mapper;
+            _caller = httpContextAccessor.HttpContext.User;
         }
 
         [HttpPost("")]
@@ -36,6 +40,14 @@ namespace RSSReader.Controllers
             CategoryDTO categoryDTO = _mapper.Map<CategoryDTO>(model);
             await _categoryService.Create(categoryDTO);
             return Ok();
+        }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            IEnumerable<CategoryDTO> categories = await _categoryService.GetAllCategoriesForUser(_caller.Claims.FirstOrDefault(c => c.Type == "id").Value);
+
+            return Ok(_mapper.Map<IEnumerable<CategoryModel>>(categories));
         }
     }
 }

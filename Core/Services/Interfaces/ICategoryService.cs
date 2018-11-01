@@ -8,5 +8,6 @@ namespace Core.Services.Interfaces
     {
         Task<IEnumerable<CategoryDTO>> GetAllAsync();
         Task Create(CategoryDTO category);
+        Task<IEnumerable<CategoryDTO>> GetAllCategoriesForUser(string userId);
     }
 }
